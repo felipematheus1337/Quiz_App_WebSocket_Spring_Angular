@@ -1,0 +1,26 @@
+<div class="menu">
+
+    <div *ngIf="!cadastrado">
+    <label>Nome: </label>
+    <input [(ngModel)]="nomeUser"/>
+    <button (click)="enviarTeste()">Cadastrar!</button>
+    </div>
+
+    <h2 *ngIf="cadastrado">User: {{ nomeUser }}</h2>
+
+    <div *ngIf="isCustom">
+        <h1>{{ mensagem }}</h1>
+    </div>
+    <div *ngIf="!isCustom" class="opcoes">
+        <span class="opcoes-letra">
+            <h2>Pergunta {{ questionNumber }}: {{ questoes.questionText }}</h2>
+            <h2
+                *ngFor="let q of questoes?.options; let i = index"
+                class="opcoes-letra-option"
+                (click)="capturarValor(q)"
+            >
+                {{ q }}
+            </h2>
+        </span>
+    </div>
+</div>
