@@ -9,7 +9,6 @@ import com.appquiz.chat.model.user.UserQuestionRequest;
 import com.appquiz.chat.model.user.UserState;
 import com.appquiz.chat.utils.GreetingUTILS;
 import com.appquiz.chat.utils.QuestionUTILS;
-import com.appquiz.chat.utils.QuizUTILS;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -19,31 +18,20 @@ import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicInteger;
 
 
 @Slf4j
 
 public class GreetingsWebSocketHandler extends TextWebSocketHandler {
 
-    List<Question> questions = new ArrayList<>();
-
-    private WebSocketSession currentSession = null;
 
     private Map<WebSocketSession, UserState> userStates = new ConcurrentHashMap<>();
-
-    User user = null;
-
-    Quiz quiz = new Quiz();
-
-    int countAnswers = 0;
-
-    boolean hasConnectedAlready = false;
-
+    List<User> usuarios = new ArrayList<>();
+    private ObjectMapper objectMapper = new ObjectMapper();
+    private Map<WebSocketSession, Quiz> userQuizzes = new ConcurrentHashMap<>();
 
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
@@ -52,46 +40,85 @@ public class GreetingsWebSocketHandler extends TextWebSocketHandler {
 
            if(userState == null) {
                userState = new UserState();
+               userState.setConnectedAlready(false);
                userStates.put(session, userState);
-               sendInitialQuestion(session);
-           }
+               Quiz quiz = new Quiz();
+               userQuizzes.put(session, quiz);
 
+               sendInitialQuestion(session);
+           } else {
+               userState.setConnectedAlready(true);
+           }
     }
 
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
-        ObjectMapper objectMapper = new ObjectMapper();
         UserState userState = userStates.get(session);
+        Quiz quiz = userQuizzes.get(session);
 
-        if (!hasConnectedAlready || user == null) {
-            user = objectMapper.readValue(message.getPayload(), User.class);
-            quiz.setTotalPontos(user.getTotalPontos());
-            hasConnectedAlready = true;
-        } else {
-            UserQuestionRequest userQuestionRequest = objectMapper.readValue(message.getPayload(), UserQuestionRequest.class);
-            quiz.setTotalPontos(userQuestionRequest.getTotalPontos());
-            countAnswers++;
+        if (userState != null) {
+
+            if (!userState.hasConnectedAlready()) {
+
+                User usuario = objectMapper.readValue(message.getPayload(), User.class);
+                verificarUsuarioExistenteEntaoRemover(usuario);
+
+                quiz.setTotalPontos(usuario.getTotalPontos());
+                usuario.setQuizList(List.of(quiz));
+
+                userState.setConnectedAlready(true);
+                userState.setUser(usuario);
+
+                TextMessage question = questionSender(quiz);
+                session.sendMessage(question);
+
+                quiz.incrementAndGetQuestionIndex();
+                userState.setQuiz(quiz);
+
+                this.usuarios.add(usuario);
+
+            } else {
+                UserQuestionRequest userQuestionRequest = objectMapper.readValue(message.getPayload(), UserQuestionRequest.class);
+
+                quiz.setTotalPontos(userQuestionRequest.getTotalPontos());
+
+               var optUser =  this.usuarios.stream().filter(u -> Objects.equals(u.getIdentificador(), userQuestionRequest.getIdentificador())).findFirst();
+
+               if (optUser.isPresent()) {
+                   int index = this.usuarios.indexOf(optUser.get());
+                   var usuario = this.usuarios.get(index);
+                   usuario.setQuizList(List.of(quiz));
+                   userState.setUser(usuario);
+               }
+
+                TextMessage question = this.questionSender(quiz);
+                session.sendMessage(question);
+
+                quiz.incrementAndGetQuestionIndex();
+                userState.setQuiz(quiz);
+            }
+
+
         }
-        user.setQuizList(List.of(quiz));
-
-        TextMessage question = this.questionSender(countAnswers);
-        session.sendMessage(question);
-
     }
 
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
-        log.info(session.getId());
-        if (session.equals(currentSession)) {
-            currentSession = null;
-            hasConnectedAlready = false;
-        }
+        userStates.remove(session);
     }
 
-    private TextMessage questionSender(int questionIndex) throws JsonProcessingException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        Question question = GreetingUTILS.getQuestionByIndex(questionIndex);
+    private TextMessage questionSender(Quiz quiz) throws JsonProcessingException {
+        int currentQuestionIndex = quiz.getCurrentQuestionIndex().get();
+        Question question = GreetingUTILS.getQuestionByIndex(currentQuestionIndex);
         return new TextMessage(objectMapper.writeValueAsString(question));
+    }
+
+    private void verificarUsuarioExistenteEntaoRemover(User user) {
+       Optional<User> usuario = this.usuarios
+               .stream()
+               .filter(u -> Objects.equals(u.getIdentificador(), user.getIdentificador())).findFirst();
+
+        usuario.ifPresent(value -> this.usuarios.remove(value));
     }
 
     private void sendInitialQuestion(WebSocketSession session) throws IOException {
@@ -99,12 +126,9 @@ public class GreetingsWebSocketHandler extends TextWebSocketHandler {
             q1.setCustomMessage(QuestionUTILS.welcome(ChatType.GREETINGS));
             q1.setChatType(ChatType.GREETINGS);
             q1.setMessageType(MessageType.CUSTOM);
-
-            ObjectMapper objectMapper = new ObjectMapper();
             TextMessage question = new TextMessage(objectMapper.writeValueAsString(q1));
-
-            quiz = QuizUTILS.setUpQuiz(ChatType.GREETINGS);
             session.sendMessage(question);
+
     }
 
 }

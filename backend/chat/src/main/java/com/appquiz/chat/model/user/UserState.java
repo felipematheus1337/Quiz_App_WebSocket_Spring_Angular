@@ -6,7 +6,7 @@ public class UserState {
 
     private User user;
     private Quiz quiz;
-    private boolean hasConnectedAlready;
+    private boolean hasConnectedAlready = false;
 
     public User getUser() {
         return user;

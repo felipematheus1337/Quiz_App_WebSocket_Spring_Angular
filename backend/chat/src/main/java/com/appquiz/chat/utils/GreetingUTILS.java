@@ -95,7 +95,6 @@ public class GreetingUTILS {
 
     public static Question getQuestionByIndex(int index) {
         List<Question> questions = gerarQuestoes();
-        log.info(String.valueOf(questions.size()));
 
         if (index >= 0 && index < questions.size()) {
             return questions.get(index);

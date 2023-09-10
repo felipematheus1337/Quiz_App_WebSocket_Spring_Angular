@@ -7,6 +7,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
@@ -19,4 +21,9 @@ public class Quiz {
     private int totalPontos;
     private int totalQuestions = 5;
     private int maximaPontuacaoPossivel = 5;
+    private AtomicInteger currentQuestionIndex = new AtomicInteger(0);
+
+    public int incrementAndGetQuestionIndex() {
+        return currentQuestionIndex.incrementAndGet();
+    }
 }
