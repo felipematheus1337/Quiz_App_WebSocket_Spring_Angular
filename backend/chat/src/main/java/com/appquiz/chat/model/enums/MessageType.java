@@ -3,9 +3,11 @@ package com.appquiz.chat.model.enums;
 public enum MessageType {
 
         QUESTION("QUESTION"),
-        CUSTOM("CUSTOM");
+        CUSTOM("CUSTOM"),
 
-        private String key;
+        LAST_QUESTION("LAST");
+
+        private final String key;
 
         private MessageType(String key) {
             this.key = key;

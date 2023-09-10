@@ -6,7 +6,7 @@ public enum ChatType {
     MMA("MMA"),
     CINEMA("CINEMA");
 
-    private String key;
+    private final String key;
 
     private ChatType(String key) {
         this.key = key;

@@ -1,4 +1,4 @@
-package com.appquiz.chat.model;
+package com.appquiz.chat.model.question;
 
 
 import com.appquiz.chat.model.enums.ChatType;
