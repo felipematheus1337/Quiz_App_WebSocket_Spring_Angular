@@ -11,9 +11,10 @@
     <div *ngIf="isCustom">
         <h1>{{ mensagem }}</h1>
     </div>
-    <div *ngIf="!isCustom" class="opcoes">
+    <div *ngIf="!isCustom && !finalizado" class="opcoes">
         <span class="opcoes-letra">
-            <h2>Pergunta {{ questionNumber }}: {{ questoes.questionText }}</h2>
+            <h2>Pergunta {{ questionNumber }}: {{ questoes?.questionText }}</h2>
+
             <h2
                 *ngFor="let q of questoes?.options; let i = index"
                 class="opcoes-letra-option"
@@ -22,5 +23,9 @@
                 {{ q }}
             </h2>
         </span>
+    </div>
+
+    <div *ngIf="finalizado">
+       <h3 style="color:red"> TERMINOU COM: {{ totalPontos }} </h3>
     </div>
 </div>

@@ -6,12 +6,20 @@ import { AppComponent } from './app.component';
 import { FormsModule } from '@angular/forms';
 import { GreetingsComponent } from './chats/greetings/greetings.component';
 import { FailedComponent } from './components/failed/failed.component';
+import { DbzComponent } from './chats/dbz/dbz.component';
+import { MmaComponent } from './chats/mma/mma.component';
+import { CineComponent } from './chats/cine/cine.component';
+import { ResultadoComponent } from './components/resultado/resultado.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     GreetingsComponent,
-    FailedComponent
+    FailedComponent,
+    DbzComponent,
+    MmaComponent,
+    CineComponent,
+    ResultadoComponent
   ],
   imports: [
     BrowserModule,

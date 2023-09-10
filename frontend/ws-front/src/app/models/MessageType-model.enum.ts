@@ -1,5 +1,6 @@
  export enum MessageType {
 
     QUESTION = "QUESTION",
-    CUSTOM = "CUSTOM"
+    CUSTOM = "CUSTOM",
+    LAST_QUESTION = "LAST_QUESTION"
 }

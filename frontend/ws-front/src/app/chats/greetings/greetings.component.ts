@@ -27,7 +27,7 @@ export class GreetingsComponent implements OnInit {
 
   opcoes = ['A', 'B', 'C', 'D'];
 
-  questoes: Question = new Question();
+  questoes: Question  | null = null;
 
   nomeUser: string | null = '';
 
@@ -38,6 +38,8 @@ export class GreetingsComponent implements OnInit {
   usuario: User = new User();
 
   cadastrado: boolean | null = false;
+
+  finalizado: boolean | null = false;
 
   constructor(private router: Router, private changeRef: ChangeDetectorRef) {
     
@@ -79,23 +81,24 @@ export class GreetingsComponent implements OnInit {
 
   recebeuMensagem(msg: MessageEvent) {
     const data = JSON.parse(msg.data); 
+    console.log(data);
 
-    if (data.messageType === MessageType.CUSTOM) {
-      this.questoes = new Question();
+    if (data?.messageType === MessageType.CUSTOM) {
       this.isCustom = true;
-  
-      const mensagemCustomizada = data.customMessage;
-  
+      const mensagemCustomizada = data?.customMessage;
+
       if (mensagemCustomizada) {
         this.mensagem = mensagemCustomizada;
       } else {
         this.mensagem = '';
       }
+      this.questoes = null;
     } else {
       this.questoes = data;
-      this.opcaoResultado = data.correctOption;
+      this.opcaoResultado = data?.correctOption;
       this.isCustom = false;
       this.questionNumber++;
+      if (this.questoes?.messageType == MessageType.LAST_QUESTION) this.finalizado = true;
     }
   
   }
@@ -124,6 +127,10 @@ export class GreetingsComponent implements OnInit {
     userRequest.questionIndex = this.questionNumber - 1;
 
     this.greetingsWebSocket?.send(JSON.stringify(userRequest!));
+     
+    if (this.finalizado) {
+      this.questoes = new Question();
+    }
 
 
   }

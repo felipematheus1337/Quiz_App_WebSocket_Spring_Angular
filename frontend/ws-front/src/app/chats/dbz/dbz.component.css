@@ -1,0 +1,20 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+
+.principal {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    margin:0;
+    padding: 0;
+    background: url("../../../assets/imgs/dbz.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 100vh;
+    width: 100vw;
+    box-sizing: border-box;
+    color: white;
+   
+}
