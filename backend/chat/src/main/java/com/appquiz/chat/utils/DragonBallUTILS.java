@@ -20,7 +20,7 @@ public class DragonBallUTILS {
     public static List<Question> gerador() {
         Question q1 = new Question();
 
-        q1.setQuestionText("Pergunta 1 do DBZ: Qual é o poder de Goku?");
+        q1.setQuestionText(" Qual é o poder de Goku?");
 
         String opcaoA1 = "A - Kamehameha";
         String opcaoB1 = "B - Genki Dama";
@@ -34,7 +34,7 @@ public class DragonBallUTILS {
 
         Question q2 = new Question();
 
-        q2.setQuestionText("Pergunta 2 do DBZ: Qual é o nome do vilão principal em Dragon Ball Z?");
+        q2.setQuestionText(" Qual é o nome do vilão principal em Dragon Ball Z?");
 
         String opcaoA2 = "A - Vegeta";
         String opcaoB2 = "B - Freeza";
@@ -48,7 +48,7 @@ public class DragonBallUTILS {
 
         Question q3 = new Question();
 
-        q3.setQuestionText("Pergunta 3 do DBZ: Qual é a transformação mais poderosa de Goku?");
+        q3.setQuestionText(" Qual é a transformação mais poderosa de Goku?");
 
         String opcaoA3 = "A - Super Saiyajin";
         String opcaoB3 = "B - Ultra Instinto";
@@ -62,7 +62,7 @@ public class DragonBallUTILS {
 
         Question q4 = new Question();
 
-        q4.setQuestionText("Pergunta 4 do DBZ: Qual é o nome da nave espacial do Vegeta?");
+        q4.setQuestionText(" Qual é o nome da nave espacial do Vegeta?");
 
         String opcaoA4 = "A - Capsule Corp";
         String opcaoB4 = "B - Namekusei";

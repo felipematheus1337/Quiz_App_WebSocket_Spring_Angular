@@ -11,7 +11,7 @@ public class QuestionUTILS {
 
     public static String welcome(ChatType chatType) {
         StringBuilder sb = new StringBuilder();
-        sb.append("Bem vindo ao chat: ");
+        sb.append("Bem vindo ao Quiz: ");
 
         switch (chatType)  {
             case DBZ -> {
@@ -27,7 +27,7 @@ public class QuestionUTILS {
                 break;
             }
             case GREETINGS -> {
-                sb.append(ChatType.GREETINGS);
+                sb.append("Conhecimentos gerais.");
                 break;
             }
             default -> {

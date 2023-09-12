@@ -50,4 +50,26 @@ public class QuizUTILS {
 
         return quiz;
     }
+
+    public static ChatType whatQuizIsUserAnswering(ChatType chatType) {
+
+        switch (chatType)  {
+            case DBZ -> {
+                return ChatType.DBZ;
+            }
+            case MMA ->  {
+                return ChatType.MMA;
+            }
+            case CINEMA -> {
+               return ChatType.CINEMA;
+            }
+            case GREETINGS -> {
+                return ChatType.GREETINGS;
+            }
+
+        }
+
+        return ChatType.GREETINGS;
+
+    }
 }

@@ -20,7 +20,7 @@ public class MixedMartialArtsUTILS {
     public static List<Question> gerador() {
         Question q1 = new Question();
 
-        q1.setQuestionText("Pergunta 1 do MMA: Quem é o campeão dos pesos-pesados do UFC?");
+        q1.setQuestionText(" Quem é o campeão dos pesos-pesados do UFC?");
 
         String opcaoA1 = "A - Conor McGregor";
         String opcaoB1 = "B - Jon Jones";
@@ -34,7 +34,7 @@ public class MixedMartialArtsUTILS {
 
         Question q2 = new Question();
 
-        q2.setQuestionText("Pergunta 2 do MMA: Qual lutador é conhecido como 'The Notorious'?");
+        q2.setQuestionText(" Qual lutador é conhecido como 'The Notorious'?");
 
         String opcaoA2 = "A - Jon Jones";
         String opcaoB2 = "B - Khabib Nurmagomedov";
@@ -48,7 +48,7 @@ public class MixedMartialArtsUTILS {
 
         Question q3 = new Question();
 
-        q3.setQuestionText("Pergunta 3 do MMA: Qual é a sigla do maior evento de MMA do mundo?");
+        q3.setQuestionText(" Qual é a sigla do maior evento de MMA do mundo?");
 
         String opcaoA3 = "A - UFC";
         String opcaoB3 = "B - Bellator";
@@ -62,7 +62,7 @@ public class MixedMartialArtsUTILS {
 
         Question q4 = new Question();
 
-        q4.setQuestionText("Pergunta 4 do MMA: Qual é a arte marcial que Anderson Silva pratica?");
+        q4.setQuestionText(" Qual é a arte marcial que Anderson Silva pratica?");
 
         String opcaoA4 = "A - Muay Thai";
         String opcaoB4 = "B - Karatê";

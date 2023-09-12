@@ -9,9 +9,12 @@ import com.appquiz.chat.model.user.UserQuestionRequest;
 import com.appquiz.chat.model.user.UserState;
 import com.appquiz.chat.utils.GreetingUTILS;
 import com.appquiz.chat.utils.QuestionUTILS;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
@@ -20,18 +23,17 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicInteger;
+
 
 
 @Slf4j
-
 public class GreetingsWebSocketHandler extends TextWebSocketHandler {
-
 
     private Map<WebSocketSession, UserState> userStates = new ConcurrentHashMap<>();
     List<User> usuarios = new ArrayList<>();
     private ObjectMapper objectMapper = new ObjectMapper();
     private Map<WebSocketSession, Quiz> userQuizzes = new ConcurrentHashMap<>();
+
 
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
@@ -96,8 +98,17 @@ public class GreetingsWebSocketHandler extends TextWebSocketHandler {
 
                 quiz.incrementAndGetQuestionIndex();
                 userState.setQuiz(quiz);
-            }
 
+                /*
+                User u = userState.getUser();
+                if (u != null) {
+                    ChatType userQuizType = QuizUTILS.whatQuizIsUserAnswering(u.getChatType());
+                    this.webSocketService.sendUserUpdate(u, userQuizType);
+                }
+                */
+
+
+            }
 
         }
     }

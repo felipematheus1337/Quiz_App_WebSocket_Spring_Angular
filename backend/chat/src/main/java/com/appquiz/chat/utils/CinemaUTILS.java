@@ -20,7 +20,7 @@ public class CinemaUTILS {
     public static List<Question> gerador() {
         Question q1 = new Question();
 
-        q1.setQuestionText("Pergunta 1 de Cinema: Qual filme ganhou o Oscar de Melhor Filme em 2020?");
+        q1.setQuestionText(" Qual filme ganhou o Oscar de Melhor Filme em 2020?");
 
         String opcaoA1 = "A - Parasita";
         String opcaoB1 = "B - 1917";
@@ -34,7 +34,7 @@ public class CinemaUTILS {
 
         Question q2 = new Question();
 
-        q2.setQuestionText("Pergunta 2 de Cinema: Qual ator interpretou o Coringa no filme de 2019?");
+        q2.setQuestionText(" Qual ator interpretou o Coringa no filme de 2019?");
 
         String opcaoA2 = "A - Heath Ledger";
         String opcaoB2 = "B - Joaquin Phoenix";
@@ -48,7 +48,7 @@ public class CinemaUTILS {
 
         Question q3 = new Question();
 
-        q3.setQuestionText("Pergunta 3 de Cinema: Qual é o diretor do filme 'Avatar'?");
+        q3.setQuestionText(" Qual é o diretor do filme 'Avatar'?");
 
         String opcaoA3 = "A - Quentin Tarantino";
         String opcaoB3 = "B - Christopher Nolan";
@@ -62,7 +62,7 @@ public class CinemaUTILS {
 
         Question q4 = new Question();
 
-        q4.setQuestionText("Pergunta 4 de Cinema: Qual é o gênero do filme 'Jurassic Park'?");
+        q4.setQuestionText(" Qual é o gênero do filme 'Jurassic Park'?");
 
         String opcaoA4 = "A - Ficção Científica";
         String opcaoB4 = "B - Ação";
