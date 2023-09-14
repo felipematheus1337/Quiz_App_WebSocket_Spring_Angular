@@ -1,0 +1,17 @@
+<div class="main-home">
+<div class="main-form">
+<section class="dados" *ngIf="status">
+ <h1>Quiz App</h1>
+ <label>Digite seu nome:</label>
+ <input  type="text" [(ngModel)]="nome"/>
+ <button (click)="escolherChat()">Entrar</button>
+</section>
+
+<section  *ngIf="!status"class="dados-out">
+    <h1>Servidor WebSocket fora do ar.</h1>
+    <img [src]="NOT_CONNECTED_IMG" alt="HOMELANDER WEBSOCKET NOT CONNECTED :/" />
+    <h2>:(</h2>
+</section>
+
+</div>
+</div>

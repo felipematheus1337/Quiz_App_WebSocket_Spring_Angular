@@ -7,5 +7,9 @@ export class User {
     public totalPontos!: number;
     public statusUser!: StatusUser;
     public chatType!: ChatType;
+
+   
+
+   
 }
 

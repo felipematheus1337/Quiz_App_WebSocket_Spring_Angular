@@ -1,3 +1,28 @@
-<div class="principal">
-  <h2>CINEMA</h2>
+<div class="menu">
+
+  <h2 *ngIf="cadastrado">Usuário: {{ nomeUser }}</h2>
+
+  <div *ngIf="isCustom">
+      <h1>{{ mensagem }}</h1>
+      <button (click)="enviarUsuario()">Iniciar</button>
+  </div>
+  <div *ngIf="!isCustom && !finalizado" class="opcoes">
+      <span class="opcoes-letra">
+          <h2>Pergunta {{ questionNumber }}: {{ questoes?.questionText }}</h2>
+
+          <h2
+              *ngFor="let q of questoes?.options; let i = index"
+              class="opcoes-letra-option"
+              (click)="capturarValor(q)"
+          >
+              {{ q }}
+          </h2>
+      </span>
+  </div>
+
+  <div *ngIf="finalizado">
+     <h1 style="color:red"> Respostas corretas: {{ totalPontos }} </h1>
+  </div>
+
+  <button class="btn-voltar" (click)="retornarSelect()">Selecionar Chat</button>
 </div>

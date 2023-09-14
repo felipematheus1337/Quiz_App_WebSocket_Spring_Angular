@@ -7,12 +7,17 @@ import com.appquiz.chat.model.quiz.Quiz;
 import com.appquiz.chat.model.user.User;
 import com.appquiz.chat.model.user.UserQuestionRequest;
 import com.appquiz.chat.model.user.UserState;
+import com.appquiz.chat.service.WebSocketService;
 import com.appquiz.chat.utils.GreetingUTILS;
 import com.appquiz.chat.utils.QuestionUTILS;
 
+import com.appquiz.chat.utils.QuizUTILS;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.web.socket.CloseStatus;
@@ -27,12 +32,18 @@ import java.util.concurrent.ConcurrentHashMap;
 
 
 @Slf4j
+@AllArgsConstructor
+@RequiredArgsConstructor
 public class GreetingsWebSocketHandler extends TextWebSocketHandler {
 
     private Map<WebSocketSession, UserState> userStates = new ConcurrentHashMap<>();
     List<User> usuarios = new ArrayList<>();
     private ObjectMapper objectMapper = new ObjectMapper();
     private Map<WebSocketSession, Quiz> userQuizzes = new ConcurrentHashMap<>();
+
+
+    private  final WebSocketService webSocketService;
+
 
 
     @Override
@@ -66,7 +77,7 @@ public class GreetingsWebSocketHandler extends TextWebSocketHandler {
                 verificarUsuarioExistenteEntaoRemover(usuario);
 
                 quiz.setTotalPontos(usuario.getTotalPontos());
-                usuario.setQuizList(List.of(quiz));
+                usuario.setQuizzes(List.of(quiz));
 
                 userState.setConnectedAlready(true);
                 userState.setUser(usuario);
@@ -89,7 +100,7 @@ public class GreetingsWebSocketHandler extends TextWebSocketHandler {
                if (optUser.isPresent()) {
                    int index = this.usuarios.indexOf(optUser.get());
                    var usuario = this.usuarios.get(index);
-                   usuario.setQuizList(List.of(quiz));
+                   usuario.setQuizzes(List.of(quiz));
                    userState.setUser(usuario);
                }
 
@@ -99,13 +110,17 @@ public class GreetingsWebSocketHandler extends TextWebSocketHandler {
                 quiz.incrementAndGetQuestionIndex();
                 userState.setQuiz(quiz);
 
-                /*
+
+
+
                 User u = userState.getUser();
+
+
                 if (u != null) {
                     ChatType userQuizType = QuizUTILS.whatQuizIsUserAnswering(u.getChatType());
                     this.webSocketService.sendUserUpdate(u, userQuizType);
                 }
-                */
+
 
 
             }

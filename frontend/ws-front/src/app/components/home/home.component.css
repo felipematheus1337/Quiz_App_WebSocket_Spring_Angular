@@ -1,0 +1,111 @@
+    * {
+        box-sizing: border-box;
+    }
+
+.main-home {
+        margin: 60px auto;
+        background: rgb(2,0,36);
+background: -moz-linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(112,83,83,1) 99%);
+background: -webkit-linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(112,83,83,1) 99%);
+background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(112,83,83,1) 99%);
+filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#020024",endColorstr="#705353",GradientType=1);
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        height: 100vh;
+        width: 100vw;
+}
+
+.main-form {
+        display: flex;
+        flex-direction: column;
+        font-weight: 400;
+        font-size: 1.8rem;
+        margin: 30px auto;
+        background-color: rgb(163, 163, 163, 0.3);
+        border-radius: 100px;
+        border: none;
+        width: 650px;
+        height: 700px;
+}
+
+.dados {
+        margin-top: 65px;
+        padding: 50px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+}
+
+.dados h1 {
+        color: white;
+        background-color: black;
+        padding: 10px;
+        margin: 15px auto;
+        border-radius: 5px;
+}
+
+.dados label {
+        border-radius: 5px;
+        margin: 15px auto;
+        padding: 10px;
+        color: white;
+        background-color: black;
+}
+
+.dados input  {
+        margin: 15px auto;
+        color: white;
+        background-color: black;
+        padding: 10px;
+        border-radius: 5px;
+        font-weight: 400;
+        font-size: 1.5rem;
+}
+
+.dados button {
+    margin: 15px auto;
+        color: white;
+        background-color: black;
+        padding: 10px;
+        border-radius: 5px;
+        font-weight: 400;
+        font-size: 1.5rem;
+        cursor: pointer;
+}
+
+.dados-out {
+        display: flex;
+        padding: 50px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+}
+
+.dados-out img {
+        width: 450px;
+        height: 300px;
+        border-radius: 10px;
+}
+
+.dados-out h1 {
+        padding: 8px;
+        color: white;
+        background-color: rgb(201, 73, 73);
+        border: 1px solid black;
+        border-radius: 4px;
+}
+
+.dados-out h2 {
+        padding: 8px;
+        color: white;
+        background-color: rgb(201, 73, 73);
+        border: 1px solid black;
+        border-radius: 4px;
+}
+

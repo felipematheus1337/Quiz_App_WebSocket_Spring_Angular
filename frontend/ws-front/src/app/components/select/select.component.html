@@ -1,0 +1,23 @@
+<div class="main-select">
+  <div class="main-form">
+    <section  *ngIf="nomeUsuario" class="chats">
+      <h1>Bem vindo,  {{ nomeUsuario}}</h1>
+      <h1>Escolha o Quiz</h1>
+      <ul>
+        <li *ngFor="let q of listOfChatSelectorTypes" class="chat-item" (click)="selecionarChat(q)">
+          <p>{{ q.name }}</p>
+          <img [src]="q.url" />
+        </li>
+      </ul>
+
+
+      <div class="main-opcoes">
+      <button (click)="voltar('i')">Início</button>
+      <button (click)="voltar('r')">Resultados</button>
+    </div>
+    </section>
+    
+    
+  </div>
+  </div>
+  

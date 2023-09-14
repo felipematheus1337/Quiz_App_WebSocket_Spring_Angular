@@ -63,7 +63,7 @@ public class MMAWebSocketHandler extends TextWebSocketHandler {
                 verificarUsuarioExistenteEntaoRemover(usuario);
 
                 quiz.setTotalPontos(usuario.getTotalPontos());
-                usuario.setQuizList(List.of(quiz));
+                usuario.setQuizzes(List.of(quiz));
 
                 userState.setConnectedAlready(true);
                 userState.setUser(usuario);
@@ -86,7 +86,7 @@ public class MMAWebSocketHandler extends TextWebSocketHandler {
                 if (optUser.isPresent()) {
                     int index = this.usuarios.indexOf(optUser.get());
                     var usuario = this.usuarios.get(index);
-                    usuario.setQuizList(List.of(quiz));
+                    usuario.setQuizzes(List.of(quiz));
                     userState.setUser(usuario);
                 }
 

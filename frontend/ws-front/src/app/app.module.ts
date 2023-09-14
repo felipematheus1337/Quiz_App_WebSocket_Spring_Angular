@@ -10,6 +10,12 @@ import { DbzComponent } from './chats/dbz/dbz.component';
 import { MmaComponent } from './chats/mma/mma.component';
 import { CineComponent } from './chats/cine/cine.component';
 import { ResultadoComponent } from './components/resultado/resultado.component';
+import { NotFoundComponent } from './components/not-found/not-found.component';
+import { HomeComponent } from './components/home/home.component';
+import { HeaderComponent } from './components/header/header.component';
+import { UserService } from './services/user.service';
+import { SelectComponent } from './components/select/select.component';
+import { WebsocketService } from './services/websocket.service';
 
 @NgModule({
   declarations: [
@@ -19,14 +25,18 @@ import { ResultadoComponent } from './components/resultado/resultado.component';
     DbzComponent,
     MmaComponent,
     CineComponent,
-    ResultadoComponent
+    ResultadoComponent,
+    NotFoundComponent,
+    HomeComponent,
+    HeaderComponent,
+    SelectComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
   ],
-  providers: [],
+  providers: [UserService, WebsocketService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

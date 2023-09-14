@@ -7,6 +7,8 @@ import { ChatType } from 'src/app/models/Chat-Type-model.enum';
 import { StatusUser } from 'src/app/models/Status-User.enum';
 import { MessageType } from 'src/app/models/MessageType-model.enum';
 import { UserRequest } from 'src/app/models/User-Request-model';
+import { UserService } from 'src/app/services/user.service';
+import { WebsocketService } from 'src/app/services/websocket.service';
 
 
 @Component({
@@ -17,7 +19,6 @@ import { UserRequest } from 'src/app/models/User-Request-model';
 export class GreetingsComponent implements OnInit {
   private greetingsWebSocket: WebSocket | undefined ;
 
-  //questoes: Question[] = [];
   welcome: string | undefined;
   texto: string = '';
 
@@ -41,17 +42,19 @@ export class GreetingsComponent implements OnInit {
 
   finalizado: boolean | null = false;
 
-  constructor(private router: Router, private changeRef: ChangeDetectorRef) {
+  constructor(private router: Router, private changeRef: ChangeDetectorRef,
+    private userService: UserService) {
     
   }
   ngOnInit(): void {
     this.inicializarWebSocketGreeting();
+    this.setarUsuario();
   }
 
   mensagem!: string;
 
   inicializarWebSocketGreeting(): any {
-    this.greetingsWebSocket = new WebSocket('ws://localhost:8080/greetings');
+    this.greetingsWebSocket = new WebSocket(WebsocketService.GREETINGS_QUIZ_ANSWERING_URL);
 
     this.greetingsWebSocket.onopen = (e) => {
       console.log('Conexão WebSocket estabelecida com sucesso');
@@ -77,6 +80,12 @@ export class GreetingsComponent implements OnInit {
 
   conexaoFechada(e: CloseEvent) {
     this.router.navigate(['/resultado']);
+  }
+  
+  setarUsuario() {
+    this.usuario = JSON.parse(localStorage.getItem('user')!);
+    this.nomeUser = this.usuario?.nome;
+    this.cadastrado = true;
   }
 
   recebeuMensagem(msg: MessageEvent) {
@@ -135,17 +144,15 @@ export class GreetingsComponent implements OnInit {
 
   }
 
-  enviarTeste() {
+  enviarUsuario() {
 
-    this.usuario.identificador = uuidv4();
-    this.usuario.chatType = ChatType.GREETINGS;
-    this.usuario.nome = this.nomeUser || 'Zangetsu';
     this.usuario.totalPontos = this.totalPontos;
-    this.usuario.statusUser = StatusUser.ANSWERING;
-
     this.greetingsWebSocket?.send(JSON.stringify(this.usuario!));
-
     this.cadastrado = true;
+  }
+
+  retornarSelect() {
+    this.router.navigate(['/select']);  
   }
 
 

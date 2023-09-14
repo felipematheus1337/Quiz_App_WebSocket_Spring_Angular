@@ -1,15 +1,10 @@
 <div class="menu">
 
-    <div *ngIf="!cadastrado">
-    <label>Nome: </label>
-    <input [(ngModel)]="nomeUser"/>
-    <button (click)="enviarTeste()">Cadastrar!</button>
-    </div>
-
-    <h2 *ngIf="cadastrado">User: {{ nomeUser }}</h2>
+    <h2 *ngIf="cadastrado">Usuário: {{ nomeUser }}</h2>
 
     <div *ngIf="isCustom">
         <h1>{{ mensagem }}</h1>
+        <button (click)="enviarUsuario()">Iniciar</button>
     </div>
     <div *ngIf="!isCustom && !finalizado" class="opcoes">
         <span class="opcoes-letra">
@@ -26,6 +21,8 @@
     </div>
 
     <div *ngIf="finalizado">
-       <h3 style="color:red"> TERMINOU COM: {{ totalPontos }} </h3>
+       <h1 style="color:red"> Respostas corretas: {{ totalPontos }} </h1>
     </div>
+
+    <button class="btn-voltar" (click)="retornarSelect()">Selecionar Chat</button>
 </div>

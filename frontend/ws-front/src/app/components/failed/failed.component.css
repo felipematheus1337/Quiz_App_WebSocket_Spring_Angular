@@ -1,3 +1,5 @@
+
+
 .principal {
   display: flex;
   justify-content: center; 
@@ -8,6 +10,8 @@
   background-size: cover;
   background-repeat: no-repeat;
   justify-content: space-around;
+  border: 5px red;
+  margin:0;
 }
 
 .menu-failed {
@@ -26,4 +30,32 @@
 
 .menu-failed h1 {
   margin-bottom: 20px; 
+}
+
+.voltar-div {
+  background-color: black;
+  margin:0;
+  color: white;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  align-content: center;
+  justify-content: center;
+}
+
+
+.voltar-div h1 {
+  color: white;
+  background-color: black;
+  padding: 10px;
+}
+
+.voltar-div button{
+ background-color: black;
+ color: white;
+ padding: 15px;
+ border-radius: 5px;;
+ border: 2px solid white;
+ margin-top: 25px;
+ cursor: pointer;
 }

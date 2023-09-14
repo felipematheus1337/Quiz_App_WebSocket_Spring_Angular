@@ -6,11 +6,16 @@ import { DbzComponent } from './chats/dbz/dbz.component';
 import { MmaComponent } from './chats/mma/mma.component';
 import { CineComponent } from './chats/cine/cine.component';
 import { ResultadoComponent } from './components/resultado/resultado.component';
+import { NotFoundComponent } from './components/not-found/not-found.component';
+import { HomeComponent } from './components/home/home.component';
+import { SelectComponent } from './components/select/select.component';
 
 const routes: Routes = [
+  {path: 'home', component: HomeComponent},
+  
   {path: 'greetings', component: GreetingsComponent},
 
-  {path: '', redirectTo: '/greetings', pathMatch: 'full'},
+  {path: 'select', component: SelectComponent},
 
   { path: 'falha', component: FailedComponent},
 
@@ -20,7 +25,10 @@ const routes: Routes = [
 
   {path: 'cine', component: CineComponent},
 
-  {path: 'resultado', component: ResultadoComponent}
+  {path: 'resultado', component: ResultadoComponent},
+  
+  {path: '**', component: NotFoundComponent}, 
+
 ];
 
 @NgModule({
