@@ -8,7 +8,8 @@
     import lombok.Data;
     import lombok.NoArgsConstructor;
     import lombok.ToString;
-    
+
+    import java.util.ArrayList;
     import java.util.List;
     import java.util.concurrent.atomic.AtomicInteger;
     
@@ -31,7 +32,7 @@
         private ChatType chatType;
     
         @Column(nullable = true)
-        private int totalPontos;
+        private int totalPontos = 0;
     
         private int totalQuestions = 5;
     
@@ -46,8 +47,14 @@
                 joinColumns = @JoinColumn(name = "quiz_id"),
                 inverseJoinColumns = @JoinColumn(name = "user_id")
         )
-        private List<User> users;
+        private List<User> users = new ArrayList<>();
     
         public int incrementAndGetQuestionIndex() {
             return currentQuestionIndex.incrementAndGet();
-        }}
+        }
+
+       public void addUserToQuiz(User u) {
+        this.users.add(u);
+       }
+
+    }

@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 @AllArgsConstructor
@@ -39,5 +40,11 @@ public class User {
     private ChatType chatType;
 
     @ManyToMany(mappedBy = "users")
-    private List<Quiz> quizzes;
+    private List<Quiz> quizzes = new ArrayList<>();
+
+
+
+    public void addQuizToList(Quiz q) {
+        this.quizzes.add(q);
+    }
 }

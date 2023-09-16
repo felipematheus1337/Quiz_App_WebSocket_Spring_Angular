@@ -7,6 +7,7 @@ import com.appquiz.chat.model.quiz.Quiz;
 import com.appquiz.chat.model.user.User;
 import com.appquiz.chat.model.user.UserQuestionRequest;
 import com.appquiz.chat.model.user.UserState;
+import com.appquiz.chat.service.UserService;
 import com.appquiz.chat.service.WebSocketService;
 import com.appquiz.chat.utils.GreetingUTILS;
 import com.appquiz.chat.utils.QuestionUTILS;
@@ -37,12 +38,13 @@ import java.util.concurrent.ConcurrentHashMap;
 public class GreetingsWebSocketHandler extends TextWebSocketHandler {
 
     private Map<WebSocketSession, UserState> userStates = new ConcurrentHashMap<>();
-    List<User> usuarios = new ArrayList<>();
     private ObjectMapper objectMapper = new ObjectMapper();
     private Map<WebSocketSession, Quiz> userQuizzes = new ConcurrentHashMap<>();
+    List<User> usuarios = new ArrayList<>();
 
 
     private  final WebSocketService webSocketService;
+    private final UserService service;
 
 
 
@@ -76,10 +78,18 @@ public class GreetingsWebSocketHandler extends TextWebSocketHandler {
                 User usuario = objectMapper.readValue(message.getPayload(), User.class);
                 verificarUsuarioExistenteEntaoRemover(usuario);
 
+                quiz.setNome("Conhecimentos gerais");
+                quiz.setChatType(ChatType.GREETINGS);
                 quiz.setTotalPontos(usuario.getTotalPontos());
-                usuario.setQuizzes(List.of(quiz));
 
                 userState.setConnectedAlready(true);
+
+
+                usuario.addQuizToList(quiz);
+                quiz.addUserToQuiz(usuario);
+
+                service.save(usuario);
+
                 userState.setUser(usuario);
 
                 TextMessage question = questionSender(quiz);
@@ -88,40 +98,26 @@ public class GreetingsWebSocketHandler extends TextWebSocketHandler {
                 quiz.incrementAndGetQuestionIndex();
                 userState.setQuiz(quiz);
 
-                this.usuarios.add(usuario);
 
             } else {
                 UserQuestionRequest userQuestionRequest = objectMapper.readValue(message.getPayload(), UserQuestionRequest.class);
 
                 quiz.setTotalPontos(userQuestionRequest.getTotalPontos());
 
-               var optUser =  this.usuarios.stream().filter(u -> Objects.equals(u.getIdentificador(), userQuestionRequest.getIdentificador())).findFirst();
+                User usuario = userState.getUser();
+                usuario.setTotalPontos(userQuestionRequest.getTotalPontos());
+                usuario.setStatusUser(userQuestionRequest.getStatus());
+                usuario.addQuizToList(quiz);
+                quiz.addUserToQuiz(usuario);
 
-               if (optUser.isPresent()) {
-                   int index = this.usuarios.indexOf(optUser.get());
-                   var usuario = this.usuarios.get(index);
-                   usuario.setQuizzes(List.of(quiz));
-                   userState.setUser(usuario);
-               }
+                service.updateAnUser(usuario);
+                userState.setUser(usuario);
 
                 TextMessage question = this.questionSender(quiz);
                 session.sendMessage(question);
 
                 quiz.incrementAndGetQuestionIndex();
                 userState.setQuiz(quiz);
-
-
-
-
-                User u = userState.getUser();
-
-
-                if (u != null) {
-                    ChatType userQuizType = QuizUTILS.whatQuizIsUserAnswering(u.getChatType());
-                    this.webSocketService.sendUserUpdate(u, userQuizType);
-                }
-
-
 
             }
 
@@ -139,13 +135,6 @@ public class GreetingsWebSocketHandler extends TextWebSocketHandler {
         return new TextMessage(objectMapper.writeValueAsString(question));
     }
 
-    private void verificarUsuarioExistenteEntaoRemover(User user) {
-       Optional<User> usuario = this.usuarios
-               .stream()
-               .filter(u -> Objects.equals(u.getIdentificador(), user.getIdentificador())).findFirst();
-
-        usuario.ifPresent(value -> this.usuarios.remove(value));
-    }
 
     private void sendInitialQuestion(WebSocketSession session) throws IOException {
             Question q1 = new Question();
@@ -155,6 +144,14 @@ public class GreetingsWebSocketHandler extends TextWebSocketHandler {
             TextMessage question = new TextMessage(objectMapper.writeValueAsString(q1));
             session.sendMessage(question);
 
+    }
+
+    private void verificarUsuarioExistenteEntaoRemover(User user) {
+        Optional<User> usuario = this.usuarios
+                .stream()
+                .filter(u -> Objects.equals(u.getIdentificador(), user.getIdentificador())).findFirst();
+
+        usuario.ifPresent(value -> this.usuarios.remove(value));
     }
 
 }

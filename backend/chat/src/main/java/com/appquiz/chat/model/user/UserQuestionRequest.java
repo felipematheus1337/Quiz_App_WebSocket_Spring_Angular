@@ -14,4 +14,5 @@ public class UserQuestionRequest {
     private String letra;
     private int totalPontos;
     private int questionIndex;
+    private StatusUser status;
 }

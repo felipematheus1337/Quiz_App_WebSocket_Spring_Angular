@@ -1,6 +1,7 @@
 package com.appquiz.chat.config;
 
 import com.appquiz.chat.handlers.*;
+import com.appquiz.chat.service.UserService;
 import com.appquiz.chat.service.WebSocketService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -11,17 +12,17 @@ import org.springframework.web.socket.config.annotation.*;
 
 @Configuration
 @EnableWebSocket
-@EnableWebSocketMessageBroker
-public class WebSocketConfig  implements WebSocketConfigurer, WebSocketMessageBrokerConfigurer{
+public class WebSocketConfig  implements WebSocketConfigurer{
 
     private WebSocketService webSocketService;
+    private UserService service;
 
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
         registry.addHandler(dbzWebSocketHandler(), "/dbz").setAllowedOrigins("*");
         registry.addHandler(mmaWebSocketHandler(), "/mma").setAllowedOrigins("*");
         registry.addHandler(cineWebSocketHandler(), "/cinema").setAllowedOrigins("*");
-        registry.addHandler(greetingsWebSocketHandler(webSocketService), "/greetings").setAllowedOrigins("*");
+        registry.addHandler(greetingsWebSocketHandler(webSocketService, service), "/greetings").setAllowedOrigins("*");
         registry.addHandler(statusWebSocketHandler(), "/status").setAllowedOrigins("*");
     }
 
@@ -41,9 +42,10 @@ public class WebSocketConfig  implements WebSocketConfigurer, WebSocketMessageBr
     }
 
     @Bean
-    public WebSocketHandler greetingsWebSocketHandler(WebSocketService webSocketService) {
-        return new GreetingsWebSocketHandler(webSocketService);
+    public WebSocketHandler greetingsWebSocketHandler(WebSocketService webSocketService, UserService service) {
+        return new GreetingsWebSocketHandler(webSocketService, service);
     }
+
 
     @Bean
     public WebSocketHandler statusWebSocketHandler() {
@@ -51,16 +53,4 @@ public class WebSocketConfig  implements WebSocketConfigurer, WebSocketMessageBr
     }
 
 
-
-    @Override
-    public void configureMessageBroker(MessageBrokerRegistry config) {
-        config.enableSimpleBroker("/quiz");
-    }
-
-    @Override
-    public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("/quiz-socket").setAllowedOrigins("*");
-        registry.addEndpoint("/quiz-socket").setAllowedOrigins("*").withSockJS();
-
-    }
 }

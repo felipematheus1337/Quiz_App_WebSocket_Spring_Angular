@@ -21,19 +21,8 @@ public class StatusWebSocketHandler extends TextWebSocketHandler {
 
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
-        StatusRequest status = statusUser.get(session);
 
-        if (status == null) {
-            StatusRequest u = new StatusRequest();
-            u.setConnected(true);
-            statusUser.put(session, u);
-        }
 
-        StatusRequest statusToSend = statusUser.get(session);
-
-        TextMessage textMessage = new TextMessage(objectMapper.writeValueAsString(statusToSend));
-
-        session.sendMessage(textMessage);
 
     }
 
@@ -44,12 +33,8 @@ public class StatusWebSocketHandler extends TextWebSocketHandler {
 
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
-        StatusRequest statusToSend = statusUser.get(session);
-        statusToSend.setConnected(false);
 
-        TextMessage textMessage = new TextMessage(objectMapper.writeValueAsString(statusToSend));
 
-        session.sendMessage(textMessage);
 
     }
 }
