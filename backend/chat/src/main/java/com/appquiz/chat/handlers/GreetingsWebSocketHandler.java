@@ -38,8 +38,9 @@ import java.util.concurrent.ConcurrentHashMap;
 public class GreetingsWebSocketHandler extends TextWebSocketHandler {
 
     private Map<WebSocketSession, UserState> userStates = new ConcurrentHashMap<>();
-    private ObjectMapper objectMapper = new ObjectMapper();
     private Map<WebSocketSession, Quiz> userQuizzes = new ConcurrentHashMap<>();
+    private ObjectMapper objectMapper = new ObjectMapper();
+
     List<User> usuarios = new ArrayList<>();
 
 
@@ -84,11 +85,11 @@ public class GreetingsWebSocketHandler extends TextWebSocketHandler {
 
                 userState.setConnectedAlready(true);
 
-
                 usuario.addQuizToList(quiz);
                 quiz.addUserToQuiz(usuario);
 
-                service.save(usuario);
+                //service.save(usuario);
+                service.save2(usuario, quiz, usuario.getTotalPontos());
 
                 userState.setUser(usuario);
 
@@ -110,7 +111,8 @@ public class GreetingsWebSocketHandler extends TextWebSocketHandler {
                 usuario.addQuizToList(quiz);
                 quiz.addUserToQuiz(usuario);
 
-                service.updateAnUser(usuario);
+                //service.updateAnUser(usuario);
+                service.updateUserQuiz(usuario, quiz, usuario.getTotalPontos());
                 userState.setUser(usuario);
 
                 TextMessage question = this.questionSender(quiz);

@@ -3,6 +3,8 @@ package com.appquiz.chat.model.user;
 
 import com.appquiz.chat.model.enums.ChatType;
 import com.appquiz.chat.model.quiz.Quiz;
+import com.appquiz.chat.model.userquiz.UserQuiz;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -31,7 +33,7 @@ public class User {
     private String nome;
 
     @Column(nullable = true)
-    private int totalPontos;
+    private int totalPontos = 0;
 
     @Enumerated(EnumType.STRING)
     private StatusUser statusUser;
@@ -39,12 +41,19 @@ public class User {
     @Enumerated(EnumType.STRING)
     private ChatType chatType;
 
-    @ManyToMany(mappedBy = "users")
+    @JsonIgnore
+    @ManyToMany(fetch = FetchType.EAGER,mappedBy = "users")
     private List<Quiz> quizzes = new ArrayList<>();
 
-
+    @JsonIgnore
+    @OneToMany(mappedBy = "user")
+    private List<UserQuiz> userQuizzes = new ArrayList<>();
 
     public void addQuizToList(Quiz q) {
         this.quizzes.add(q);
+    }
+
+    public void addUserQuizToList(UserQuiz uq) {
+        this.userQuizzes.add(uq);
     }
 }

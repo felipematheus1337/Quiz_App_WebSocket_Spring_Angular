@@ -7,12 +7,16 @@ import com.appquiz.chat.model.quiz.Quiz;
 import com.appquiz.chat.model.user.User;
 import com.appquiz.chat.model.user.UserQuestionRequest;
 import com.appquiz.chat.model.user.UserState;
+import com.appquiz.chat.service.UserService;
+import com.appquiz.chat.service.WebSocketService;
 import com.appquiz.chat.utils.CinemaUTILS;
 import com.appquiz.chat.utils.GreetingUTILS;
 import com.appquiz.chat.utils.MixedMartialArtsUTILS;
 import com.appquiz.chat.utils.QuestionUTILS;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
@@ -25,12 +29,17 @@ import java.util.concurrent.ConcurrentHashMap;
 
 
 @Slf4j
+@AllArgsConstructor
+@RequiredArgsConstructor
 public class CINEWebSocketHandler extends TextWebSocketHandler {
 
     private Map<WebSocketSession, UserState> userStates = new ConcurrentHashMap<>();
     List<User> usuarios = new ArrayList<>();
     private ObjectMapper objectMapper = new ObjectMapper();
     private Map<WebSocketSession, Quiz> userQuizzes = new ConcurrentHashMap<>();
+
+    private  final WebSocketService webSocketService;
+    private final UserService service;
 
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
@@ -62,10 +71,18 @@ public class CINEWebSocketHandler extends TextWebSocketHandler {
                 User usuario = objectMapper.readValue(message.getPayload(), User.class);
                 verificarUsuarioExistenteEntaoRemover(usuario);
 
+                quiz.setNome("Cinema");
+                quiz.setChatType(ChatType.CINEMA);
                 quiz.setTotalPontos(usuario.getTotalPontos());
-                usuario.setQuizzes(List.of(quiz));
 
                 userState.setConnectedAlready(true);
+
+
+                usuario.addQuizToList(quiz);
+                quiz.addUserToQuiz(usuario);
+
+                service.save(usuario);
+
                 userState.setUser(usuario);
 
                 TextMessage question = questionSender(quiz);
@@ -74,21 +91,19 @@ public class CINEWebSocketHandler extends TextWebSocketHandler {
                 quiz.incrementAndGetQuestionIndex();
                 userState.setQuiz(quiz);
 
-                this.usuarios.add(usuario);
-
             } else {
                 UserQuestionRequest userQuestionRequest = objectMapper.readValue(message.getPayload(), UserQuestionRequest.class);
 
                 quiz.setTotalPontos(userQuestionRequest.getTotalPontos());
 
-                var optUser =  this.usuarios.stream().filter(u -> Objects.equals(u.getIdentificador(), userQuestionRequest.getIdentificador())).findFirst();
+                User usuario = userState.getUser();
+                usuario.setTotalPontos(userQuestionRequest.getTotalPontos());
+                usuario.setStatusUser(userQuestionRequest.getStatus());
+                usuario.addQuizToList(quiz);
+                quiz.addUserToQuiz(usuario);
 
-                if (optUser.isPresent()) {
-                    int index = this.usuarios.indexOf(optUser.get());
-                    var usuario = this.usuarios.get(index);
-                    usuario.setQuizzes(List.of(quiz));
-                    userState.setUser(usuario);
-                }
+                service.updateAnUser(usuario);
+                userState.setUser(usuario);
 
                 TextMessage question = this.questionSender(quiz);
                 session.sendMessage(question);
@@ -96,13 +111,7 @@ public class CINEWebSocketHandler extends TextWebSocketHandler {
                 quiz.incrementAndGetQuestionIndex();
                 userState.setQuiz(quiz);
 
-                /*
-                User u = userState.getUser();
-                if (u != null) {
-                    ChatType userQuizType = QuizUTILS.whatQuizIsUserAnswering(u.getChatType());
-                    this.webSocketService.sendUserUpdate(u, userQuizType);
-                }
-                */
+
 
 
             }

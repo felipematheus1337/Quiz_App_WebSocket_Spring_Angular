@@ -3,6 +3,7 @@
     
     import com.appquiz.chat.model.enums.ChatType;
     import com.appquiz.chat.model.user.User;
+    import com.appquiz.chat.model.userquiz.UserQuiz;
     import jakarta.persistence.*;
     import lombok.AllArgsConstructor;
     import lombok.Data;
@@ -48,6 +49,9 @@
                 inverseJoinColumns = @JoinColumn(name = "user_id")
         )
         private List<User> users = new ArrayList<>();
+
+        @OneToMany(mappedBy = "quiz")
+        private List<UserQuiz> userQuizzes = new ArrayList<>();
     
         public int incrementAndGetQuestionIndex() {
             return currentQuestionIndex.incrementAndGet();
@@ -55,6 +59,10 @@
 
        public void addUserToQuiz(User u) {
         this.users.add(u);
+       }
+
+       public void addUserQuiz(UserQuiz uq) {
+            this.userQuizzes.add(uq);
        }
 
     }

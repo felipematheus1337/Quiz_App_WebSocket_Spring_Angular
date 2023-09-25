@@ -13,13 +13,14 @@ import java.util.List;
 @RestController
 @RequestMapping("/user")
 @RequiredArgsConstructor
+@CrossOrigin("*")
 public class UserController {
 
 
     private final UserService service;
 
-    @GetMapping(value = "/{chatType}")
-    public ResponseEntity<List<User>> findAllByType(@PathVariable ChatType chatType) {
+    @GetMapping
+    public ResponseEntity<List<User>> findAllByType(@RequestParam(value = "chatType") ChatType chatType) {
 
         return ResponseEntity.ok().body(this.service.findAllUserByChatType(chatType));
     }

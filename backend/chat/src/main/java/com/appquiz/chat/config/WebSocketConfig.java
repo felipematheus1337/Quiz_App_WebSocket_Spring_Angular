@@ -19,26 +19,26 @@ public class WebSocketConfig  implements WebSocketConfigurer{
 
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-        registry.addHandler(dbzWebSocketHandler(), "/dbz").setAllowedOrigins("*");
-        registry.addHandler(mmaWebSocketHandler(), "/mma").setAllowedOrigins("*");
-        registry.addHandler(cineWebSocketHandler(), "/cinema").setAllowedOrigins("*");
+        registry.addHandler(dbzWebSocketHandler(webSocketService, service), "/dbz").setAllowedOrigins("*");
+        registry.addHandler(mmaWebSocketHandler(webSocketService, service), "/mma").setAllowedOrigins("*");
+        registry.addHandler(cineWebSocketHandler(webSocketService, service), "/cinema").setAllowedOrigins("*");
         registry.addHandler(greetingsWebSocketHandler(webSocketService, service), "/greetings").setAllowedOrigins("*");
         registry.addHandler(statusWebSocketHandler(), "/status").setAllowedOrigins("*");
     }
 
     @Bean
-    public WebSocketHandler dbzWebSocketHandler() {
-        return new DBZWebSocketHandler();
+    public WebSocketHandler dbzWebSocketHandler(WebSocketService webSocketService, UserService service) {
+        return new DBZWebSocketHandler(webSocketService, service);
     }
 
     @Bean
-    public WebSocketHandler mmaWebSocketHandler() {
-        return new MMAWebSocketHandler();
+    public WebSocketHandler mmaWebSocketHandler(WebSocketService webSocketService, UserService service) {
+        return new MMAWebSocketHandler(webSocketService, service);
     }
 
     @Bean
-    public WebSocketHandler cineWebSocketHandler() {
-        return new CINEWebSocketHandler();
+    public WebSocketHandler cineWebSocketHandler(WebSocketService webSocketService, UserService service) {
+        return new CINEWebSocketHandler(webSocketService, service);
     }
 
     @Bean
