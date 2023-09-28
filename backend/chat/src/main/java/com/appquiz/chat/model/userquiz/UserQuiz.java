@@ -28,6 +28,6 @@ public class UserQuiz {
     private Quiz quiz;
 
     @Column(nullable = true)
-    private Integer pontos;
+    private Integer pontos = 0;
 
 }

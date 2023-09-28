@@ -1,6 +1,7 @@
 package com.appquiz.chat.service;
 
 
+import com.appquiz.chat.dto.UserResultDTO;
 import com.appquiz.chat.model.enums.ChatType;
 import com.appquiz.chat.model.quiz.Quiz;
 import com.appquiz.chat.model.user.User;
@@ -46,7 +47,8 @@ public class UserService {
         if (userExists.isPresent()) {
             var id = userExists.get().getId();
             user.setId(id);
-            this.updateUserQuiz(user, quiz, totalPontos);
+            //this.updateUserQuiz(user, quiz, totalPontos);
+            this.updateUser(user, quiz, totalPontos);
         } else {
             UserQuiz userQuiz = new UserQuiz();
             userQuiz.setUser(user);
@@ -59,6 +61,20 @@ public class UserService {
             this.repository.save(user);
             this.quizzesRepository.saveAll(user.getQuizzes());
         }
+    }
+
+    @Transactional
+    public void updateUser(User user, Quiz quiz, int totalPontos) {
+        Optional<UserQuiz> userQuizToUpdate = userQuizRepository.findByUserAndQuizChatType(user, quiz.getChatType());
+
+        if (userQuizToUpdate.isPresent()) {
+            // Já existe um UserQuiz para o usuário e quiz específicos, atualize-o
+            UserQuiz userQuiz = userQuizToUpdate.get();
+            userQuiz.setPontos(totalPontos);
+        }
+
+        repository.saveAndFlush(user);
+        quizzesRepository.saveAllAndFlush(user.getQuizzes());
     }
 
 
@@ -76,7 +92,6 @@ public class UserService {
         if (optUser.isPresent()) {
             var userToUpdate = optUser.get();
 
-            // Inicialize a coleção quizzes explicitamente
             userToUpdate.getQuizzes().size();
 
             var optQuiz = userToUpdate.getQuizzes().stream().filter(q -> q.getChatType() == quiz.getChatType()).findFirst();
@@ -95,8 +110,7 @@ public class UserService {
             userToUpdate.setTotalPontos(u.getTotalPontos());
             userToUpdate.setIdentificador(u.getIdentificador());
 
-            // Não copie a lista de quizzes diretamente
-            // userToUpdate.setQuizzes(u.getQuizzes());
+            userToUpdate.setQuizzes(u.getQuizzes());
 
             this.repository.saveAndFlush(userToUpdate);
             this.quizzesRepository.saveAllAndFlush(userToUpdate.getQuizzes());
@@ -132,6 +146,11 @@ public class UserService {
     public List<User> findAllUserByChatType(ChatType chatType) {
 
         return this.repository.findByChatTypeOrderByTotalPontosDesc(chatType);
+    }
+
+    public List<UserResultDTO> findUsersResultByChatType(ChatType chatType) {
+
+        return this.userQuizRepository.findByQuiz_ChatType(chatType);
     }
 
     private Optional<UserQuiz> findUserQuizByUserAndChatType(User user, ChatType chatType) {

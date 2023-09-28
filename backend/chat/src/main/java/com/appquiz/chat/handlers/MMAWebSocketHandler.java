@@ -81,7 +81,7 @@ public class MMAWebSocketHandler extends TextWebSocketHandler {
                 usuario.addQuizToList(quiz);
                 quiz.addUserToQuiz(usuario);
 
-                service.save(usuario);
+                service.save2(usuario, quiz, usuario.getTotalPontos());
 
                 userState.setUser(usuario);
 
@@ -102,7 +102,7 @@ public class MMAWebSocketHandler extends TextWebSocketHandler {
                 usuario.addQuizToList(quiz);
                 quiz.addUserToQuiz(usuario);
 
-                service.updateAnUser(usuario);
+                service.updateUserQuiz(usuario, quiz, usuario.getTotalPontos());
                 userState.setUser(usuario);
 
                 TextMessage question = this.questionSender(quiz);

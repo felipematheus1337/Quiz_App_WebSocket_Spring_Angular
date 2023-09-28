@@ -1,8 +1,10 @@
 package com.appquiz.chat.controller;
 
 
+import com.appquiz.chat.dto.UserResultDTO;
 import com.appquiz.chat.model.enums.ChatType;
 import com.appquiz.chat.model.user.User;
+import com.appquiz.chat.model.userquiz.UserQuiz;
 import com.appquiz.chat.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -20,8 +22,8 @@ public class UserController {
     private final UserService service;
 
     @GetMapping
-    public ResponseEntity<List<User>> findAllByType(@RequestParam(value = "chatType") ChatType chatType) {
+    public ResponseEntity<List<UserResultDTO>> findAllByType(@RequestParam(value = "chatType") ChatType chatType) {
 
-        return ResponseEntity.ok().body(this.service.findAllUserByChatType(chatType));
+        return ResponseEntity.ok().body(this.service.findUsersResultByChatType(chatType));
     }
 }
