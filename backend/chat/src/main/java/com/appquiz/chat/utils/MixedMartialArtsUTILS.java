@@ -28,7 +28,7 @@ public class MixedMartialArtsUTILS {
         String opcaoD1 = "D - Francis Ngannou";
 
         q1.setOptions(Arrays.asList(opcaoA1, opcaoB1, opcaoC1, opcaoD1));
-        q1.setCorrectOption(3);
+        q1.setCorrectOption(1);
         q1.setChatType(ChatType.MMA);
         q1.setMessageType(MessageType.QUESTION);
 
@@ -60,21 +60,37 @@ public class MixedMartialArtsUTILS {
         q3.setChatType(ChatType.MMA);
         q3.setMessageType(MessageType.QUESTION);
 
-        Question q4 = new Question();
+        Question q12 = new Question();
 
-        q4.setQuestionText(" Qual é a arte marcial que Anderson Silva pratica?");
+        q12.setQuestionText("Qual é a especialidade de Demian Maia nas artes marciais mistas (MMA)?");
 
-        String opcaoA4 = "A - Muay Thai";
-        String opcaoB4 = "B - Karatê";
-        String opcaoC4 = "C - Jiu-Jitsu";
-        String opcaoD4 = "D - Taekwondo";
+        String opcaoA12 = "A - Boxe";
+        String opcaoB12 = "B - Muay Thai";
+        String opcaoC12 = "C - Jiu-Jitsu";
+        String opcaoD12 = "D - Wrestling";
 
-        q4.setOptions(Arrays.asList(opcaoA4, opcaoB4, opcaoC4, opcaoD4));
-        q4.setCorrectOption(2);
-        q4.setChatType(ChatType.MMA);
-        q4.setMessageType(MessageType.LAST_QUESTION);
+        q12.setOptions(Arrays.asList(opcaoA12, opcaoB12, opcaoC12, opcaoD12));
+        q12.setCorrectOption(2);
+        q12.setChatType(ChatType.MMA);
+        q12.setMessageType(MessageType.QUESTION);
 
-        return List.of(q1, q2, q3, q4);
+
+        Question q13 = new Question();
+
+        q13.setQuestionText("Qual é a especialidade de Demian Maia nas artes marciais mistas (MMA)?");
+
+        String opcaoA13 = "A - Boxe";
+        String opcaoB13 = "B - Muay Thai";
+        String opcaoC13 = "C - Jiu-Jitsu";
+        String opcaoD13 = "D - Wrestling";
+
+        q13.setOptions(Arrays.asList(opcaoA13, opcaoB13, opcaoC13, opcaoD13));
+        q13.setCorrectOption(2);
+        q13.setChatType(ChatType.MMA);
+        q13.setMessageType(MessageType.LAST_QUESTION);
+
+
+        return List.of(q1, q2, q3, q12, q13);
     }
 
     public static Question getQuestionByIndex(int index) {

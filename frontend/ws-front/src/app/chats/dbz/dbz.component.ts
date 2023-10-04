@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MessageType } from 'src/app/models/MessageType-model.enum';
 import { Question } from 'src/app/models/Question-model.enum';
+import { StatusUser } from 'src/app/models/Status-User.enum';
 import { UserRequest } from 'src/app/models/User-Request-model';
 import { User } from 'src/app/models/User-model';
 import { UserService } from 'src/app/services/user.service';
@@ -49,6 +50,7 @@ export class DbzComponent implements OnInit {
   }
 
   mensagem!: string;
+  LAST_QUESTION_NUMBER = 4;
 
   inicializarWebSocket(): any {
     this.webSocket = new WebSocket(WebsocketService.DBZ_QUIZ_ANSWERING_URL);
@@ -131,6 +133,7 @@ export class DbzComponent implements OnInit {
     userRequest.letra = letra;
     userRequest.totalPontos = this.totalPontos;
     userRequest.questionIndex = this.questionNumber - 1;
+    userRequest.status = this.questionNumber === this.LAST_QUESTION_NUMBER ? StatusUser.FINISHED : StatusUser.ANSWERING;
 
     this.webSocket?.send(JSON.stringify(userRequest!));
      

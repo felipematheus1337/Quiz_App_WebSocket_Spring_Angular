@@ -16,6 +16,10 @@ import { HeaderComponent } from './components/header/header.component';
 import { UserService } from './services/user.service';
 import { SelectComponent } from './components/select/select.component';
 import { WebsocketService } from './services/websocket.service';
+import { HttpClientModule } from '@angular/common/http';
+import { DisconnectComponent } from './components/disconnect/disconnect.component';
+
+
 
 @NgModule({
   declarations: [
@@ -29,12 +33,14 @@ import { WebsocketService } from './services/websocket.service';
     NotFoundComponent,
     HomeComponent,
     HeaderComponent,
-    SelectComponent
+    SelectComponent,
+    DisconnectComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
+    HttpClientModule
   ],
   providers: [UserService, WebsocketService],
   bootstrap: [AppComponent]

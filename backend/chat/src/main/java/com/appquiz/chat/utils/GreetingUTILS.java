@@ -75,21 +75,22 @@ public class GreetingUTILS {
         q4.setChatType(ChatType.GREETINGS);
         q4.setMessageType(MessageType.QUESTION);
 
-        Question q5 = new Question();
+        Question q13 = new Question();
 
-        q5.setQuestionText("Qual é o maior oceano do mundo?");
+        q13.setQuestionText("Qual é a especialidade de Demian Maia nas artes marciais mistas (MMA)?");
 
-        String opcaoA5 = "A - Oceano Atlântico";
-        String opcaoB5 = "B - Oceano Pacífico";
-        String opcaoC5 = "C - Oceano Índico";
-        String opcaoD5 = "D - Oceano Antártico";
+        String opcaoA13 = "A - Boxe";
+        String opcaoB13 = "B - Muay Thai";
+        String opcaoC13 = "C - Jiu-Jitsu";
+        String opcaoD13 = "D - Wrestling";
 
-        q5.setOptions(Arrays.asList(opcaoA5, opcaoB5, opcaoC5, opcaoD5));
-        q5.setCorrectOption(1);
-        q5.setChatType(ChatType.GREETINGS);
-        q5.setMessageType(MessageType.LAST_QUESTION);
+        q13.setOptions(Arrays.asList(opcaoA13, opcaoB13, opcaoC13, opcaoD13));
+        q13.setCorrectOption(2);
+        q13.setChatType(ChatType.GREETINGS);
+        q13.setMessageType(MessageType.LAST_QUESTION);
 
-        return List.of(q1, q2, q3, q4, q5);
+
+        return List.of(q1, q2, q3, q4, q13);
     }
 
 

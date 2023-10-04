@@ -1,6 +1,8 @@
-    * {
+* {
         box-sizing: border-box;
-    }
+        background: none;
+}
+
 
 .main-home {
         margin: 60px auto;
@@ -78,7 +80,8 @@ filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#020024",endCo
         cursor: pointer;
 }
 
-.dados-out {
+.main-home .main-form .dados-out {
+        background: none;
         display: flex;
         padding: 50px;
         display: flex;
@@ -91,6 +94,7 @@ filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#020024",endCo
         width: 450px;
         height: 300px;
         border-radius: 10px;
+        margin: 10px;
 }
 
 .dados-out h1 {
@@ -99,6 +103,7 @@ filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#020024",endCo
         background-color: rgb(201, 73, 73);
         border: 1px solid black;
         border-radius: 4px;
+        margin: 10px;
 }
 
 .dados-out h2 {
@@ -107,5 +112,6 @@ filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#020024",endCo
         background-color: rgb(201, 73, 73);
         border: 1px solid black;
         border-radius: 4px;
+        margin: 10px;
 }
 

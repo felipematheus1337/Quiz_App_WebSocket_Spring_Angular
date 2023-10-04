@@ -1,3 +1,8 @@
+* {
+  box-sizing: border-box;
+  background: none;
+}
+
 .menu {
     display: flex;
     height: auto;
@@ -18,6 +23,7 @@
     border-radius: 5px;
     font-weight: 400;
     font-size: 1.5rem;
+    margin: 8px;
   }
   
   .menu button {

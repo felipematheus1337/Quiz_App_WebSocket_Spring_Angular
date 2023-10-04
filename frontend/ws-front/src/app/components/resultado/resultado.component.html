@@ -1,3 +1,39 @@
-<p>
-  resultado works!
-</p>
+<div class="div-refresh" *ngIf="status">
+  <h1>Atualizar</h1>
+  <img [src]="UPDATE_URL" alt="UPDATE ICON"  class="rotate-icon" (click)="atualizar()" [class.rotate-animation]="isRotating" />
+</div>
+
+<div class="div-resultado" *ngIf="status">
+
+  <div class="section-result-greetings" *ngIf="status && greetingsResult.length > 0">
+    <h1>Conhecimentos Gerais</h1>
+    <h2 *ngFor="let item of greetingsResult; let i = index" [ngClass]="{'updating': isUpdating}"> {{ item?.nome }} -  {{ item?.totalPontos }}/4 </h2>
+  </div>
+  
+
+
+
+<div class="section-result-dbz" *ngIf="status && dbzResult.length > 0">
+  <h1>DBZ</h1>
+  <h2 *ngFor="let item of dbzResult" [ngClass]="{'updating': isUpdating}"> {{ item?.nome }} -  {{ item?.totalPontos }}/4
+  </h2>
+</div>
+
+
+<div class="section-result-cinema" *ngIf="status && cinemaResult.length > 0" >
+  <h1>Cinema</h1>
+  <h2 *ngFor="let item of cinemaResult" [ngClass]="{'updating': isUpdating}"> {{ item?.nome }} -  {{ item?.totalPontos }}/4
+  </h2>
+</div>
+
+<div class="section-result-mma"  *ngIf="status && mmaResult.length > 0">
+  <h1>MMA</h1>
+  <h2 *ngFor="let item of mmaResult" [ngClass]="{'updating': isUpdating}"> {{ item?.nome }} -  {{ item?.totalPontos }}/4
+  </h2>
+</div>
+
+</div>
+
+<div class="div-resultado" *ngIf="!status">
+  <app-disconnect [servidor]="false"></app-disconnect>
+</div>

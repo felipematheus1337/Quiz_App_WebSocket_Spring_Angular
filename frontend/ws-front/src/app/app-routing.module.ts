@@ -27,7 +27,7 @@ const routes: Routes = [
 
   {path: 'resultado', component: ResultadoComponent},
   
-  {path: '**', component: NotFoundComponent}, 
+  {path: '**', component: HomeComponent}, 
 
 ];
 

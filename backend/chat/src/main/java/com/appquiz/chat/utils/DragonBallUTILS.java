@@ -72,9 +72,24 @@ public class DragonBallUTILS {
         q4.setOptions(Arrays.asList(opcaoA4, opcaoB4, opcaoC4, opcaoD4));
         q4.setCorrectOption(2);
         q4.setChatType(ChatType.DBZ);
-        q4.setMessageType(MessageType.LAST_QUESTION);
+        q4.setMessageType(MessageType.QUESTION);
 
-        return List.of(q1, q2, q3, q4);
+
+        Question q13 = new Question();
+
+        q13.setQuestionText("Qual é a especialidade de Demian Maia nas artes marciais mistas (MMA)?");
+
+        String opcaoA13 = "A - Boxe";
+        String opcaoB13 = "B - Muay Thai";
+        String opcaoC13 = "C - Jiu-Jitsu";
+        String opcaoD13 = "D - Wrestling";
+
+        q13.setOptions(Arrays.asList(opcaoA13, opcaoB13, opcaoC13, opcaoD13));
+        q13.setCorrectOption(2);
+        q13.setChatType(ChatType.GREETINGS);
+        q13.setMessageType(MessageType.LAST_QUESTION);
+
+        return List.of(q1, q2, q3, q4, q13);
     }
 
     public static Question getQuestionByIndex(int index) {

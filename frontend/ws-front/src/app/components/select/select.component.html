@@ -1,5 +1,5 @@
 <div class="main-select">
-  <div class="main-form">
+  <div class="main-form" *ngIf="status">
     <section  *ngIf="nomeUsuario" class="chats">
       <h1>Bem vindo,  {{ nomeUsuario}}</h1>
       <h1>Escolha o Quiz</h1>
@@ -16,8 +16,11 @@
       <button (click)="voltar('r')">Resultados</button>
     </div>
     </section>
-    
-    
   </div>
+
+  <div class="main-form" *ngIf="!status" >
+    <app-disconnect [servidor]="true"></app-disconnect>
+  </div>
+ 
   </div>
   

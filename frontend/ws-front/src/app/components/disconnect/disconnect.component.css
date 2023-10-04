@@ -1,0 +1,34 @@
+.dados-out {
+    background: none;
+    display: flex;
+    padding: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.dados-out img {
+    width: 450px;
+    height: 300px;
+    border-radius: 10px;
+    margin: 10px;
+}
+
+.dados-out h1 {
+    padding: 8px;
+    color: white;
+    background-color: rgb(201, 73, 73);
+    border: 1px solid black;
+    border-radius: 4px;
+    margin: 10px;
+}
+
+.dados-out h2 {
+    padding: 8px;
+    color: white;
+    background-color: rgb(201, 73, 73);
+    border: 1px solid black;
+    border-radius: 4px;
+    margin: 10px;
+}

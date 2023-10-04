@@ -3,6 +3,7 @@ import { Route, Router } from '@angular/router';
 import { ChatType } from 'src/app/models/Chat-Type-model.enum';
 import { User } from 'src/app/models/User-model';
 import { UserService } from 'src/app/services/user.service';
+import { WebsocketService } from 'src/app/services/websocket.service';
 
 export interface ChatSelectorType {
   name: string;
@@ -19,7 +20,11 @@ export interface ChatSelectorType {
 export class SelectComponent implements OnInit {
 
   constructor(private userService: UserService,
-    private router: Router) { }
+    private router: Router, private webSocketService: WebsocketService) { }
+
+  private statusWebSocket: WebSocket | undefined;
+  status: boolean | null = false;
+
 
   nomeUsuario: string | null = '';
   user: User | null = null;
@@ -35,6 +40,10 @@ export class SelectComponent implements OnInit {
   ngOnInit() {
     this.criarListaDeChats();
     this.setarUsuario();
+
+    this.estabelecerConexaoWebSocket();
+    
+    this.iniciarVerificacaoPeriodica();
     
   }
 
@@ -122,6 +131,43 @@ export class SelectComponent implements OnInit {
     } else {
       this.router.navigate(['resultado']);
     }
+  }
+
+  estabelecerConexaoWebSocket() {
+    this.statusWebSocket = new WebSocket(WebsocketService.STATUS_URL);
+
+    this.statusWebSocket.onopen = (e) => {
+      console.log('Conexão WebSocket estabelecida com sucesso');
+      this.status = true;
+    }
+
+    this.statusWebSocket.onclose = (e) => {
+      console.log('Conexão WebSocket finalizada.')
+      this.status = false;
+    }
+
+    this.statusWebSocket.onerror = (e) => {
+      console.log('Falha ao conectar com servidor WebSocket');
+      this.status = false;
+    }
+  }
+
+  verificarStatus() {
+    this.estabelecerConexaoWebSocket();
+  }
+
+  private iniciarVerificacaoPeriodica() {
+    const intervalId = setInterval(() => {
+      if (!this.status) {
+        this.verificarStatus();
+      } else {
+        clearInterval(intervalId);
+      }
+    }, 10000);
+  }
+
+  ngOnDestroy(): void {
+    this.statusWebSocket?.close();
   }
 
 }

@@ -7,11 +7,7 @@
  <button (click)="escolherChat()">Entrar</button>
 </section>
 
-<section  *ngIf="!status"class="dados-out">
-    <h1>Servidor WebSocket fora do ar.</h1>
-    <img [src]="NOT_CONNECTED_IMG" alt="HOMELANDER WEBSOCKET NOT CONNECTED :/" />
-    <h2>:(</h2>
-</section>
+<app-disconnect *ngIf="!status" [servidor]="true"></app-disconnect>
 
 </div>
 </div>

@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Question } from 'src/app/models/Question-model.enum';
 import { User } from 'src/app/models/User-model';
@@ -16,7 +16,7 @@ import { WebsocketService } from 'src/app/services/websocket.service';
   templateUrl: './greetings.component.html',
   styleUrls: ['./greetings.component.css']
 })
-export class GreetingsComponent implements OnInit {
+export class GreetingsComponent implements OnInit, OnDestroy {
   private greetingsWebSocket: WebSocket | undefined ;
 
   welcome: string | undefined;
@@ -42,6 +42,8 @@ export class GreetingsComponent implements OnInit {
 
   finalizado: boolean | null = false;
 
+  statusUser: StatusUser | undefined;
+
   constructor(private router: Router, private changeRef: ChangeDetectorRef,
     private userService: UserService) {
     
@@ -52,8 +54,10 @@ export class GreetingsComponent implements OnInit {
   }
 
   mensagem!: string;
-
+  LAST_QUESTION_NUMBER = 4;
   inicializarWebSocketGreeting(): any {
+
+    
     this.greetingsWebSocket = new WebSocket(WebsocketService.GREETINGS_QUIZ_ANSWERING_URL);
 
     this.greetingsWebSocket.onopen = (e) => {
@@ -107,7 +111,12 @@ export class GreetingsComponent implements OnInit {
       this.opcaoResultado = data?.correctOption;
       this.isCustom = false;
       this.questionNumber++;
-      if (this.questoes?.messageType == MessageType.LAST_QUESTION) this.finalizado = true;
+      if (this.questoes?.messageType == MessageType.LAST_QUESTION) {
+         this.finalizado = true;
+         this.statusUser = StatusUser.FINISHED
+     } else {
+       this.statusUser = StatusUser.ANSWERING
+     }
     }
   
   }
@@ -128,12 +137,14 @@ export class GreetingsComponent implements OnInit {
   }
 
   enviarMsg(letra: any) {
+    console.log(this.questionNumber, this.finalizado, this.statusUser);
 
     const userRequest = new UserRequest();
     userRequest.identificador = this.usuario.identificador;
     userRequest.letra = letra;
     userRequest.totalPontos = this.totalPontos;
     userRequest.questionIndex = this.questionNumber - 1;
+    userRequest.status = this.questionNumber === this.LAST_QUESTION_NUMBER ? StatusUser.FINISHED : StatusUser.ANSWERING;
 
     this.greetingsWebSocket?.send(JSON.stringify(userRequest!));
      
@@ -153,6 +164,10 @@ export class GreetingsComponent implements OnInit {
 
   retornarSelect() {
     this.router.navigate(['/select']);  
+  }
+
+  ngOnDestroy(): void {
+    this.greetingsWebSocket?.close();
   }
 
 

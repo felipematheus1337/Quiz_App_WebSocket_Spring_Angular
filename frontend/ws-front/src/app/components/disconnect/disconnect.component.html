@@ -1,0 +1,6 @@
+<section class="dados-out">
+  <h1 *ngIf="!servidor">Servidor REST fora do ar.</h1>
+  <h1 *ngIf="servidor">Servidor WebSocket fora do ar.</h1>
+  <img [src]="NOT_CONNECTED_IMG" alt="HOMELANDER WEBSOCKET NOT CONNECTED :/" />
+  <h2>:(</h2>
+</section>

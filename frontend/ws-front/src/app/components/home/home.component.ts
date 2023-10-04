@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserService } from 'src/app/services/user.service';
 import { WebsocketService } from 'src/app/services/websocket.service';
@@ -13,10 +13,11 @@ export enum TypeStatus {
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy {
 
   constructor(private route: Router,
     private userService: UserService) { }
+
     
   private statusWebSocket: WebSocket | undefined;  
 
@@ -89,6 +90,12 @@ export class HomeComponent implements OnInit {
       }
     }, 10000);
   }
+
+  ngOnDestroy(): void {
+    this.statusWebSocket?.close();
+  }
+
+  
   
   
 
