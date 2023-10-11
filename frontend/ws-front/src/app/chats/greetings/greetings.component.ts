@@ -16,7 +16,7 @@ import { WebsocketService } from 'src/app/services/websocket.service';
   templateUrl: './greetings.component.html',
   styleUrls: ['./greetings.component.css']
 })
-export class GreetingsComponent implements OnInit, OnDestroy {
+export class GreetingsComponent implements OnInit {
   private greetingsWebSocket: WebSocket | undefined ;
 
   welcome: string | undefined;
@@ -166,9 +166,7 @@ export class GreetingsComponent implements OnInit, OnDestroy {
     this.router.navigate(['/select']);  
   }
 
-  ngOnDestroy(): void {
-    this.greetingsWebSocket?.close();
-  }
+
 
 
 
