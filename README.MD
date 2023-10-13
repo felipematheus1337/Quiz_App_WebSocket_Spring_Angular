@@ -43,6 +43,8 @@ Inicie o cliente Angular: ng serve.
 
 O cliente estará em execução em http://localhost:4200.
 
+
+
 ## Uso
 Após a instalação, você pode acessar o aplicativo em seu navegador. Você pode criar uma conta, escolher um tema de quiz, convidar amigos para jogar em tempo real e competir para ver quem tem o melhor conhecimento.
 
