@@ -43,6 +43,17 @@ Inicie o cliente Angular: ng serve.
 
 O cliente estará em execução em http://localhost:4200.
 
+## Screenshots
+
+### Menu
+<img src="https://github.com/felipematheus1337/Quiz_App_WebSocket_Spring_Angular/blob/dev/imgs/menu.png" />
+
+### Selecionar Quiz
+<img src="https://github.com/felipematheus1337/Quiz_App_WebSocket_Spring_Angular/blob/dev/imgs/select.png" />
+
+### Resultados
+<img src="https://github.com/felipematheus1337/Quiz_App_WebSocket_Spring_Angular/blob/dev/imgs/resultado.png" />
+
 
 
 ## Uso
